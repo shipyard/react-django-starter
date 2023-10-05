@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
    
 services:
 
@@ -19,7 +19,7 @@ services:
 
   backend:
     labels:
-      shipyard.before: 'poetry run python src/manage.py migrate'
+      shipyard.init: 'poetry run python src/manage.py migrate'
       shipyard.route: '/api'
     build: 'backend'
     volumes:
