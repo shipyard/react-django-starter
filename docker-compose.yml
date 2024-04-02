@@ -28,6 +28,7 @@ services:
       - './backend/pyproject.toml:/srv/pyproject.toml/'
     environment:
       LOCALSTACK_HOST: 'localstack'
+    command: ["poetry", "run", "python", "src/manage.py", "runserver", "0:8080"]
     ports:
       - '8080:8080'
     depends_on:
