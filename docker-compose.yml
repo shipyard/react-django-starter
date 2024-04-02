@@ -48,13 +48,19 @@ services:
       - '5432'
 
   localstack:
-    image: 'localstack/localstack'
-    environment:
-      - DATA_DIR=/tmp/localstack/data
-    volumes:
-      - 'localstack:/tmp/localstack'
+    container_name: localstack
+    image: localstack/localstack:latest
     ports:
-      - '4566'
+      - '127.0.0.1:4566:4566'            # LocalStack Gateway
+      - '127.0.0.1:4510-4559:4510-4559'  # external services port range
+    environment:
+      - DEBUG=1
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - EXTRA_CORS_ALLOWED_ORIGINS='*'
+    volumes:
+      - './init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh'
+      - 'localstack:/var/lib/localstack'
+      - '/var/run/docker.sock:/var/run/docker.sock'
 
 volumes:
   postgres:
